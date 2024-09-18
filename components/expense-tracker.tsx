@@ -28,7 +28,6 @@ import {
   Legend,
 } from 'chart.js';
 
-// Registering the components used in the chart
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -87,7 +86,6 @@ export default function ExpenseTrackerComponent() {
     amount: "",
     date: new Date(),
   });
-  
 
   useEffect(() => {
     const storedExpenses = localStorage.getItem("expenses");
@@ -185,7 +183,6 @@ export default function ExpenseTrackerComponent() {
     }
   };
 
-  // Dynamic Chart Data from expenses
   const chartData = {
     labels: expenses.map((expense) => format(expense.date, 'MMM dd')),
     datasets: [
@@ -197,9 +194,38 @@ export default function ExpenseTrackerComponent() {
       },
     ],
   };
+  
+  const chartOptions = {
+    scales: {
+      x: {
+        ticks: {
+          color: 'black', // Dark color for month labels
+          font: {
+            size: 14, // You can adjust the size as needed
+          },
+        },
+      },
+      y: {
+        ticks: {
+          color: 'black', // Dark color for number labels
+          font: {
+            size: 14, // You can adjust the size as needed
+          },
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color: 'black', // Dark color for legend text
+        },
+      },
+    },
+  };
+  
 
   return (
-    <div className="bg-slate-400">
+    <div className="bg-slate-700">
       <header className="bg-primary text-primary-foreground py-4 px-6 shadow">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold">Expense Tracker</h1>
@@ -258,8 +284,14 @@ export default function ExpenseTrackerComponent() {
       </div>
       <Dialog open={showModal} onOpenChange={(open) => !open && resetForm()} >
         <DialogContent className="bg-slate-400">
-          <DialogHeader className= "bg text-cyan-50">
+          <DialogHeader className="bg text-cyan-50">
             <DialogTitle>{isEditing ? "Edit Expense" : "Add Expense"}</DialogTitle>
+            <Button
+              className="absolute right-2 top-2"
+              onClick={() => setShowModal(false)}
+            >
+              ✕
+            </Button>
           </DialogHeader>
           <form 
             onSubmit={(e) => {
@@ -292,14 +324,22 @@ export default function ExpenseTrackerComponent() {
                 <DatePicker
                   selected={newExpense.date}
                   onChange={handleDateChange}
-                  dateFormat="dd/MM/yyyy"
-                  className="form-input w-full px-2 py-1 rounded border-slate-500"
+                  dateFormat="dd MMM yyyy"
+                  className="p-2 w-full rounded-md border bg-slate-500"
                 />
               </div>
             </div>
-            <DialogFooter>
+            <DialogFooter className="mt-4">
               <Button type="submit">
-                {isEditing ? "Save" : "Add"}
+                {isEditing ? "Save Changes" : "Add Expense"}
+              </Button>
+              <Button 
+                type="button" 
+                variant="outline" 
+                className="ml-2" 
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
               </Button>
             </DialogFooter>
           </form>
@@ -308,3 +348,4 @@ export default function ExpenseTrackerComponent() {
     </div>
   );
 }
+
