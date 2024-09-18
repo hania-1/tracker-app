@@ -195,35 +195,7 @@ export default function ExpenseTrackerComponent() {
     ],
   };
   
-  const chartOptions = {
-    scales: {
-      x: {
-        ticks: {
-          color: 'black', // Dark color for month labels
-          font: {
-            size: 14, // You can adjust the size as needed
-          },
-        },
-      },
-      y: {
-        ticks: {
-          color: 'black', // Dark color for number labels
-          font: {
-            size: 14, // You can adjust the size as needed
-          },
-        },
-      },
-    },
-    plugins: {
-      legend: {
-        labels: {
-          color: 'black', // Dark color for legend text
-        },
-      },
-    },
-  };
   
-
   return (
     <div className="bg-slate-700">
       <header className="bg-primary text-primary-foreground py-4 px-6 shadow">
